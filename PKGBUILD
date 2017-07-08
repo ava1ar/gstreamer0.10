@@ -28,8 +28,7 @@ prepare() {
 build() {
   cd ${_pkgname}-${pkgver}
   NOCONFIGURE=1 ./autogen.sh
-  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib \
-    --disable-gtk-doc --disable-static
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib --disable-gtk-doc --disable-static
   make
 }
 
@@ -37,7 +36,7 @@ package() {
   cd ${_pkgname}-${pkgver}
   make DESTDIR="${pkgdir}" install
 
-  #Remove unversioned gst-* binaries to get rid of conflicts
+  # Remove unversioned gst-* binaries to avoid possible conflicts
   cd "${pkgdir}/usr/bin"
   for bins in `ls *-0.10`; do
     rm -f ${bins/-0.10/}
